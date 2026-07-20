@@ -1,0 +1,36 @@
+generated: '2026-07-17'
+method: searched
+source: >-
+  Live probe of https://api.anvyl.com/api/v1 plus the Anvyl developer
+  documentation at https://anvyl.stoplight.io/docs/anvyl-api
+description: >-
+  No public OpenAPI/Swagger document is exposed by Anvyl (developer docs are
+  served as a gated Stoplight SPA), so the auth model here is captured from
+  observed live behavior rather than derived from a spec. Unauthenticated
+  requests to the REST API return HTTP 401 with {"error":"Unauthorized"}. A
+  request carrying an Authorization: Bearer <token> header passes the auth gate
+  (the same route then returns 404 for an unknown token context rather than
+  401), whereas an X-API-Key header does not (still 401) — indicating the API
+  authenticates with a bearer token in the standard Authorization header.
+summary:
+  types: [http]
+  http_schemes: [bearer]
+  api_key_in: []
+  oauth2_flows: []
+schemes:
+  - name: bearerAuth
+    type: http
+    scheme: bearer
+    in: header
+    header: Authorization
+    description: >-
+      Bearer token supplied in the Authorization header
+      (Authorization: Bearer <token>). Tokens are provisioned via the Anvyl
+      platform's API access feature; see the developer docs for issuance.
+    evidence:
+      - "GET https://api.anvyl.com/api/v1 without auth -> 401 {\"error\":\"Unauthorized\"}"
+      - "GET https://api.anvyl.com/api/v1/purchase_orders with Authorization: Bearer <bogus> -> 404 (past the 401 gate)"
+      - "GET https://api.anvyl.com/api/v1/purchase_orders with X-API-Key: <bogus> -> 401 (header not honored)"
+    sources:
+      - live probe
+docs: https://anvyl.stoplight.io/docs/anvyl-api
