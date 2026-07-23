@@ -1,0 +1,34 @@
+generated: '2026-07-17'
+method: searched
+description: >-
+  Results of probing the /.well-known/ discovery surface for the Anvyl web host
+  (www.anvyl.com), the apex (anvyl.com), and the API host (api.anvyl.com). Status
+  is the HTTP code observed at fetch time. Anvyl was acquired by Sage; the
+  security.txt served on all three hosts is the Sage Security Team's, and its
+  Canonical points at https://anvyl.com/.well-known/security.txt. Only the
+  security.txt documents returned a real payload and were saved verbatim.
+hosts:
+  - host: https://www.anvyl.com
+    documents:
+      - path: /.well-known/security.txt
+        status: 200
+        type: text/plain
+        file: anvyl-security.txt
+  - host: https://anvyl.com
+    documents:
+      - path: /.well-known/security.txt
+        status: 200
+        note: identical to www host; Canonical target
+  - host: https://api.anvyl.com
+    documents:
+      - path: /.well-known/security.txt
+        status: 200
+        note: identical Sage security.txt
+      - path: /.well-known/openid-configuration
+        status: 404
+      - path: /.well-known/oauth-authorization-server
+        status: 404
+      - path: /.well-known/api-catalog
+        status: 404
+      - path: /.well-known/ai-plugin.json
+        status: 404
