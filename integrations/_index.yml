@@ -27,5 +27,5 @@
     - connectors/applications/anvyl
     vendor_link: https://anvyl.com/
     builder: Fivetran
-  status: pending-partner-spec
+  status: not-a-workflow
   arazzo: null
